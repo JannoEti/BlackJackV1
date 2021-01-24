@@ -1,0 +1,106 @@
+import random
+
+# All available cards
+cards_value = ["2","3","4","5","6","7","8","9","10","J","Q","K","A",
+               "2","3","4","5","6","7","8","9","10","J","Q","K","A",
+               "2","3","4","5","6","7","8","9","10","J","Q","K","A",
+               "2","3","4","5","6","7","8","9","10","J","Q","K","A"]
+# List of player and dealer cards
+player_cards = []
+dealer_cards = []
+
+# total value of cards held
+player_value = 0
+dealer_value = 0
+
+# Bj game begins, cards are dealt
+while len(player_cards) != 2:
+    i = random.choice(cards_value)
+    player_cards.append(i)
+    if i == "J" or i == "Q" or i == "K":
+        i = "10"
+    if i == "A":
+        i = "11"
+    player_value = player_value + (int(i))
+    cards_value.remove(i)
+print("Your cards are: ",player_cards)
+
+while len(dealer_cards) != 2:
+    j = random.choice(cards_value)
+    dealer_cards.append(j)
+    if j == "J" or j == "Q" or j == "K":
+        j = "10"
+    if j == "A":
+        j = "11"
+    dealer_value = dealer_value + (int(j))
+    cards_value.remove(j)
+print("The dealers cards are: X & ",dealer_cards[1])
+
+# observe dealer & player cards
+#check if dealer has blackjack
+if dealer_value == 21:
+    print("the dealer has blackjack, you lose")
+    quit()
+#check if player has blackjack
+elif player_value == 21 and dealer_value != 21:
+    print("You have blackjack, you win!")
+    quit()
+# Neither have blackjack, ask player for other card
+elif player_value == 21 and dealer_value == 21:
+    print("Both you and the house have Blackjack, Split money")
+
+# Create variable which asks player for another card
+while player_value < 21:
+    Another_card = input("\n 1 Hit me! (press 1) \n 2 No, thanks (press 2) \n Answer: ")
+    if Another_card == "1":
+        a = random.choice(cards_value)
+        player_cards.append(a)
+        if a == "J" or a == "Q" or a == "K" or a == "10":
+            a = "10"
+        if a == "A":
+            a = "11"
+        player_value = player_value + (int(a))
+        cards_value.remove(a)
+        print("Your cards are: ", player_cards)
+    elif Another_card == "2":
+        break
+
+# Check player value, if bust and A than change value of A to 1.
+if player_value > 21 and "A" in player_cards:
+        player_value = player_value - 10
+if player_value > 21:
+     print("You busted, the dealer wins")
+     print("The dealers cards were: ", dealer_cards)
+     quit()
+elif player_value == 21:
+    (print("Your card value is 21!"))
+    quit()
+elif player_value <= 21:
+    print("your total card value is: ", player_value)
+
+#Show dealer cards and end game
+print("the dealers cards are: ", dealer_cards)
+
+while dealer_value < 17:
+    b = random.choice(cards_value)
+    dealer_cards.append(b)
+    if b == "J" or b == "Q" or b == "K" or b == "10":
+        b = "10"
+    if b == "A":
+        b = "11"
+    dealer_value = dealer_value + (int(b))
+    cards_value.remove(b)
+    print("The dealer cards are now: ", dealer_cards)
+    
+# Change A to 1 if dealer bust
+if dealer_value > 21 and "A" in dealer_cards:
+        dealer_value = dealer_value - 10
+
+if player_value > dealer_value:
+    print("You win!")
+elif player_value == dealer_value:
+    print("Split money")
+elif dealer_value > 21:
+    print("The dealer busted, you win!")
+else:
+    print("The dealer won!")
